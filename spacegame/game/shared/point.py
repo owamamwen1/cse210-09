@@ -58,15 +58,3 @@ class Point:
             integer: The vertical distance.
         """
         return self._y
-
-    def scale(self, factor):
-        """
-        Scales the point by the provided factor.
-
-        Args:
-            factor (int): The amount to scale.
-            
-        Returns:
-            Point: A new Point that is scaled.
-        """
-        return Point(self._x * factor, self._y * factor)
