@@ -1,3 +1,4 @@
+import game.shared.gamecontants as gameconstants
 import pygame
 
 
@@ -13,9 +14,13 @@ class DisplayService:
             debug (bool): whether or not to draw in debug mode. ???
         """
         self._caption = caption
-        self._width = width
-        self._height = height
-        self._frame_duration = int(1000 / frame_rate) # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
+        self._width = gameconstants.MAX_X
+        self._height = gameconstants.MAX_Y
+        self._iconlogo = pygame.image.load("spacegame/game/casting/logo.png")
+        self._background = pygame.image.load(
+            "spacegame/game/casting/background.webp")
+        # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
+        self._frame_duration = int(1000 / frame_rate)
 
     def draw_actor(self, actor):
         """Draws the given actor's text on the screen.
@@ -33,7 +38,10 @@ class DisplayService:
         Args:
             actors (list): A list of actors to draw.
         """
-        self.screen.fill((0,0,0))
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(self._background, (0, 0))
+        pygame.display.set_caption(gameconstants.CAPTION)
+        pygame.display.set_icon(self._iconlogo)
         for actor in actors:
             self.draw_actor(actor)
         pygame.display.update()
