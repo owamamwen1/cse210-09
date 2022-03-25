@@ -18,8 +18,7 @@ class Actor:
         """Constructs a new Actor."""
         self._position = Point(0, 0)
         self._velocity = Point(0, 0)
-        self._image = pygame.image.load(
-            "spacegame/game/casting/actor.png")
+        self._image = pygame.image.load(gameconstants.ACTOR_IMAGE)
 
     def getImage(self):
         return self._image
