@@ -1,6 +1,7 @@
 from pathlib import Path
+
 from game.shared.color import Color
-import pathlib
+# import Path
 
 FRAME_RATE = 50
 MAX_X = 800
@@ -13,7 +14,7 @@ ROWS = 40
 CAPTION = "Space Game"
 WHITE = Color(255, 255, 255)
 
-ACTOR_IMAGE = pathlib.Path(__file__).parent.parent.parent / "assets/images/actor.png"
-BACK_GROUND_IMAGE = pathlib.Path(__file__).parent.parent.parent /"assets/images/background.webp"
-LOGO_IMAGE = pathlib.Path(__file__).parent.parent.parent / "assets/images/logo.png"
+ACTOR_IMAGE = Path(__file__).parent.parent.parent / "assets/images/actor.png"
+BACK_GROUND_IMAGE = Path(__file__).parent.parent.parent /"assets/images/background.webp"
+LOGO_IMAGE = Path(__file__).parent.parent.parent / "assets/images/logo.png"
 
