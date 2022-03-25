@@ -1,4 +1,4 @@
-import game.shared.gamecontants as gameconstants
+from game.shared.gamecontants import *
 
 from game.casting.cast import Cast
 from game.casting.cycle import Cycle
@@ -18,14 +18,14 @@ def main():
     cast = Cast()
 
     # The next line is just a facy way of positioning proportionally to the screen size.
-    position = Point(int(gameconstants.MAX_X / 3),
-                     int(gameconstants.MAX_Y / 2))
+    position = Point(int(MAX_X / 3),
+                     int(MAX_Y / 2))
     cycle1 = Cycle(position, 1)
     cycle1.set_velocity(Point(0, 0))
     cast.add_actor("cycle1", cycle1)
 
-    position = Point(int(gameconstants.MAX_X / 3 * 2),
-                     int(gameconstants.MAX_Y / 2))
+    position = Point(int(MAX_X / 3 * 2),
+                     int(MAX_Y / 2))
     cycle2 = Cycle(position, 3)
     cycle2.set_velocity(Point(0, 0))
     cast.add_actor("cycle2", cycle2)
@@ -33,11 +33,7 @@ def main():
     # start the game
     keyboard_service = KeyboardService()
     display_service = DisplayService(
-        gameconstants.CAPTION.format(gameconstants.CENTER),
-        gameconstants.MAX_X,
-        gameconstants.MAX_Y,
-        gameconstants.FRAME_RATE
-    )
+        CAPTION.format(CENTER), MAX_X, MAX_Y, FRAME_RATE)
     director = Director(keyboard_service, display_service)
     director.start_game(cast)
 
