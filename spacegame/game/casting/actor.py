@@ -5,7 +5,7 @@ import pygame
 
 class Actor:
     """A visible, moveable thing that participates in the game. 
-    
+
     The responsibility of Actor is to keep track of its appearance, position and velocity in 2d 
     space.
 
@@ -18,14 +18,15 @@ class Actor:
         """Constructs a new Actor."""
         self._position = Point(0, 0)
         self._velocity = Point(0, 0)
-        self._image = pygame.image.load("spacegame/game/casting/null_image.jpg")
+        self._image = pygame.image.load(
+            "spacegame/game/casting/actor.png")
 
     def getImage(self):
         return self._image
 
     def get_position(self):
         """Gets the actor's position in 2d space.
-        
+
         Returns:
             Point: The actor's position in 2d space.
         """
@@ -33,16 +34,16 @@ class Actor:
 
     def get_velocity(self):
         """Gets the actor's speed and direction.
-        
+
         Returns:
             Point: The actor's speed and direction.
         """
         return self._velocity
-    
+
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity. Will wrap the position 
         from one side of the screen to the other when it reaches the given maximum x and y values.
-        
+
         Args:
             max_x (int): The maximum x value.
             max_y (int): The maximum y value.
@@ -56,7 +57,7 @@ class Actor:
 
     def set_position(self, position):
         """Updates the position to the given one.
-        
+
         Args:
             position (Point): The given position.
         """
@@ -64,7 +65,7 @@ class Actor:
 
     def set_velocity(self, velocity):
         """Updates the velocity to the given one.
-        
+
         Args:
             velocity (Point): The given velocity.
         """
