@@ -1,12 +1,12 @@
 import pygame
+import pathlib
 
 
 class Body(pygame.sprite.Sprite):
 
     def __init__(self, pos):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(
-            '/home/matheus/BYU-I/CSE 210 Class/Space_Game/spacegame/game/casting/gear.jpg')
+        self.image = pygame.image.load(pathlib.Path(__file__).parent / 'gear.jpg')
         self.gameDisplay = pygame.display.set_mode((500, 500))
         self.gameDisplay.blit(self.image, (10, 10))
         self.image = pygame.Surface([30, 20])
