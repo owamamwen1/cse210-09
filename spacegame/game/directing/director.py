@@ -1,3 +1,5 @@
+from game.casting.bullet import Bullet
+
 import pygame
 
 
@@ -53,13 +55,10 @@ class Director:
             cast (Cast): The cast of actors.
         """
 
-        cycle1 = cast.get_first_actor("cycle1")
-        vel = cycle1.get_direction()
-        cycle1.set_velocity(vel)
+        player_ship = cast.get_first_actor("player_ship")
+        vel = player_ship.get_direction()
+        player_ship.set_velocity(vel)
 
-        cycle2 = cast.get_first_actor("cycle2")
-        vel = cycle2.get_direction()
-        cycle2.set_velocity(vel)
 
     def _do_updates(self, cast):
         """Updates the players' positions and resolves any collisions with trails.
@@ -67,13 +66,23 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        cycle1 = cast.get_first_actor("cycle1")
-        cycle2 = cast.get_first_actor("cycle2")
+        player_ship = cast.get_first_actor("player_ship")
 
         max_x = self._display_service.get_width()
         max_y = self._display_service.get_height()
-        cycle1.move_next(max_x, max_y)
-        cycle2.move_next(max_x, max_y)
+        player_ship.move_next(max_x, max_y)
+
+        if (player_ship.is_shooting() and player_ship.is_recharged()):
+            new_bullet = Bullet(player_ship.get_position(), 0)
+            cast.add_actor("player_bullets", new_bullet)
+            player_ship.uncharge()
+
+        player_bullets = cast.get_actors("player_bullets")
+        for bullet in player_bullets:
+            bullet.move_next(max_x, max_y)
+        #    if (COLIDING WITH ENEMY):
+        #        REMOVE LIFE FROM ENEMY
+        #        DELETE BULLET
 
     # The game over
 

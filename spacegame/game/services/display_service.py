@@ -7,15 +7,15 @@ class DisplayService:
     on the screen. 
     """
 
-    def __init__(self, caption, width, height, frame_rate, debug=False):
+    def __init__(self, caption, width, height, frame_rate):
         """Constructs a new DisplayService using the specified debug mode. ???
 
         Args:
             debug (bool): whether or not to draw in debug mode. ???
         """
         self._caption = caption
-        self._width = MAX_X
-        self._height = MAX_Y
+        self._width = width
+        self._height = height
         self._iconlogo = pygame.image.load(LOGO_IMAGE)
         self._background = pygame.image.load(BACK_GROUND_IMAGE)
         # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
@@ -29,7 +29,7 @@ class DisplayService:
         """
         x = actor.get_position().get_x()
         y = actor.get_position().get_y()
-        self.screen.blit(actor.getImage(), (x, y))
+        self.screen.blit(actor.get_image(), (x, y))
 
     def draw_actors(self, actors):
         """Draws the text for the given list of actors on the screen.

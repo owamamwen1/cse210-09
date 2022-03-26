@@ -17,4 +17,6 @@ WHITE = Color(255, 255, 255)
 ACTOR_IMAGE = Path(__file__).parent.parent.parent / "assets/images/actor.png"
 BACK_GROUND_IMAGE = Path(__file__).parent.parent.parent /"assets/images/background.webp"
 LOGO_IMAGE = Path(__file__).parent.parent.parent / "assets/images/logo.png"
+BULLET_IMAGE = Path(__file__).parent.parent.parent / "assets/images/bullet.png"
+BULLET_ENEMY_IMAGE = Path(__file__).parent.parent.parent / "assets/images/bullet_enemy.png"
 

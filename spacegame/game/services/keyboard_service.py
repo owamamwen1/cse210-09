@@ -1,5 +1,4 @@
 import pygame
-import game.shared.gamecontants as gameconstants
 
 from game.shared.point import Point
 
@@ -47,3 +46,10 @@ class KeyboardService:
         direction = Point(self._dx, self._dy)
 
         return direction
+
+    def is_shooting(self):
+        """
+        """
+        keys = pygame.key.get_pressed()  
+
+        return keys[pygame.K_SPACE]
