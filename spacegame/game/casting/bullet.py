@@ -25,4 +25,4 @@ class Bullet(Actor):
             self.actor_sound.play()
         if (direction == 1):
             self.set_image(pygame.image.load(BULLET_ENEMY_IMAGE))
-            self.set_velocity(Point(-6, 0))
+            self.set_velocity(Point(-63, 0))

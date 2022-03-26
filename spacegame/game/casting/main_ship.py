@@ -1,7 +1,5 @@
 from game.casting.actor import Actor
-
 from game.services.keyboard_service import KeyboardService
-
 import time
 from game.shared.gamecontants import *
 
