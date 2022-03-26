@@ -3,7 +3,6 @@ from game.shared.point import Point
 from game.shared.gamecontants import *
 import pygame
 
-from game.shared.gamecontants import *
 from pygame import mixer
 
 
