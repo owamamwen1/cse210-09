@@ -1,5 +1,5 @@
 from game.shared.point import Point
-import game.shared.gamecontants as gameconstants
+from game.shared.gamecontants import *
 import pygame
 
 
@@ -18,7 +18,7 @@ class Actor:
         """Constructs a new Actor."""
         self._position = Point(0, 0)
         self._velocity = Point(0, 0)
-        self._image = pygame.image.load(gameconstants.ACTOR_IMAGE)
+        self._image = pygame.image.load(ACTOR_IMAGE)
 
     def getImage(self):
         return self._image

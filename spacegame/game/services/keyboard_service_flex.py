@@ -12,8 +12,6 @@ class KeyboardServiceFlex(KeyboardService):
         """
         """
         super().__init__()
-        self._dx = 0
-        self._dy = -3
 
         self._key_sets = {
             0 : {'l':pygame.K_LEFT, 'r':pygame.K_RIGHT, 'u':pygame.K_UP, 'd':pygame.K_DOWN},
@@ -43,6 +41,9 @@ class KeyboardServiceFlex(KeyboardService):
         """
 
         keys = pygame.key.get_pressed()  # This will give us a dictonary where each key has a value of 1 or 0. Where 1 is pressed and 0 is not pressed.
+
+        self._dx = 0
+        self._dy = 0
 
         if keys[self._left] and self._dx != 1:
             self._dx = -3
