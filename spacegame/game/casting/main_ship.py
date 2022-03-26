@@ -3,12 +3,14 @@ from game.casting.actor import Actor
 from game.services.keyboard_service import KeyboardService
 
 import time
+from game.shared.gamecontants import *
 
 
 class Main_ship(Actor):
     """
     """
-    def __init__(self, pos, num = 0):
+
+    def __init__(self, pos, num=0):
         """
         """
         super().__init__()
@@ -17,7 +19,7 @@ class Main_ship(Actor):
         self._dead = False
         self._previous_position = pos
         self._t = time.perf_counter()
-    
+
     def get_direction(self):
         """
         """

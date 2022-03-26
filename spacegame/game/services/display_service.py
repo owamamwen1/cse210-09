@@ -1,6 +1,8 @@
 from game.shared.gamecontants import *
 import pygame
 
+from pygame import mixer
+
 
 class DisplayService:
     """Outputs the game state. The responsibility of the class of objects is to draw the game state 
@@ -20,6 +22,11 @@ class DisplayService:
         self._background = pygame.image.load(BACK_GROUND_IMAGE)
         # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
         self._frame_duration = int(1000 / frame_rate)
+
+     # The background sound
+    def background_sound(self):
+        mixer.music.load(BACK_GROUND_SOUND)
+        mixer.music.play(-1)
 
     def draw_actor(self, actor):
         """Draws the given actor's text on the screen.
@@ -72,3 +79,4 @@ class DisplayService:
             title (string): The title of the window.
         """
         self.screen = pygame.display.set_mode((self._width, self._height))
+        self.background_sound()
