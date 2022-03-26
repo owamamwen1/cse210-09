@@ -15,5 +15,8 @@ class Bullet(Actor):
         self._dead = False
         self._previous_position = pos
         if (direction == 0):
-            self.setImage(pygame.image.load(BULLET_IMAGE))
+            self.set_image(pygame.image.load(BULLET_IMAGE))
             self.set_velocity(Point(6,0))
+        if (direction == 1):
+            self.set_image(pygame.image.load(BULLET_ENEMY_IMAGE))
+            self.set_velocity(Point(-6,0))

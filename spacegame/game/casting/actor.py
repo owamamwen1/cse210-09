@@ -20,7 +20,7 @@ class Actor:
         self._velocity = Point(0, 0)
         self._image = pygame.image.load(ACTOR_IMAGE)
 
-    def getImage(self):
+    def get_image(self):
         return self._image
 
     def get_position(self):
@@ -51,7 +51,7 @@ class Actor:
         y = (self._position.get_y() + self._velocity.get_y()) % max_y
         self._position = Point(x, y)
 
-    def setImage(self, image):
+    def set_image(self, image):
         self._image = image
 
     def set_position(self, position):

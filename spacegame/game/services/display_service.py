@@ -29,7 +29,7 @@ class DisplayService:
         """
         x = actor.get_position().get_x()
         y = actor.get_position().get_y()
-        self.screen.blit(actor.getImage(), (x, y))
+        self.screen.blit(actor.get_image(), (x, y))
 
     def draw_actors(self, actors):
         """Draws the text for the given list of actors on the screen.
