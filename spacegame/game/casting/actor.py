@@ -22,6 +22,12 @@ class Actor:
 
     def get_image(self):
         return self._image
+    
+    def get_image_height(self):
+        return self._image.get_height()
+    
+    def get_image_width(self):
+        return self._image.get_width()
 
     def get_position(self):
         """Gets the actor's position in 2d space.
@@ -40,15 +46,33 @@ class Actor:
         return self._velocity
 
     def move_next(self, max_x, max_y):
-        """Moves the actor to its next position according to its velocity. Will wrap the position 
-        from one side of the screen to the other when it reaches the given maximum x and y values.
+        """Moves the actor to its next position according to its velocity.
 
         Args:
             max_x (int): The maximum x value.
             max_y (int): The maximum y value.
         """
-        x = (self._position.get_x() + self._velocity.get_x()) % max_x
-        y = (self._position.get_y() + self._velocity.get_y()) % max_y
+        pos_x = self._position.get_x()
+        pos_y = self._position.get_y()
+        vel_x = self._velocity.get_x()
+        vel_y = self._velocity.get_y()
+        image_width = self.get_image_width()
+        image_height = self.get_image_height()
+
+        if (pos_x + vel_x + image_width > max_x):
+            x = max_x - image_width
+        elif (pos_x + vel_x < 0):
+            x = 0
+        else:
+            x = (pos_x + vel_x)
+
+        if (pos_y + vel_y + image_height > max_y):
+            y = max_y - image_height
+        elif (pos_y + vel_y < 0):
+            y = 0
+        else:
+            y = (pos_y + vel_y)
+
         self._position = Point(x, y)
 
     def set_image(self, image):
