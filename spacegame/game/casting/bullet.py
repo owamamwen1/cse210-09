@@ -2,7 +2,6 @@ from game.casting.actor import Actor
 from game.shared.point import Point
 from game.shared.gamecontants import *
 import pygame
-
 from pygame import mixer
 
 
