@@ -1,6 +1,6 @@
 import pygame
-
 from game.shared.point import Point
+from game.shared.gamecontants import *
 
 
 class KeyboardService:
@@ -29,9 +29,10 @@ class KeyboardService:
         self._dx = 0
         self._dy = 0
 
-        keys = pygame.key.get_pressed()  # This will give us a dictonary where each key has a value of 1 or 0. Where 1 is pressed and 0 is not pressed.
+        # This will give us a dictonary where each key has a value of 1 or 0. Where 1 is pressed and 0 is not pressed.
+        keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT]: # We can check if a key is pressed like this
+        if keys[pygame.K_LEFT]:  # We can check if a key is pressed like this
             self._dx = -3
 
         if keys[pygame.K_RIGHT]:
@@ -50,6 +51,5 @@ class KeyboardService:
     def is_shooting(self):
         """
         """
-        keys = pygame.key.get_pressed()  
-
+        keys = pygame.key.get_pressed()
         return keys[pygame.K_SPACE]

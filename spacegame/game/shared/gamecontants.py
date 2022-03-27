@@ -20,3 +20,6 @@ LOGO_IMAGE = Path(__file__).parent.parent.parent / "assets/images/logo.png"
 BULLET_IMAGE = Path(__file__).parent.parent.parent / "assets/images/bullet.png"
 BULLET_ENEMY_IMAGE = Path(__file__).parent.parent.parent / "assets/images/bullet_enemy.png"
 
+# Sounds for the game
+ACTOR_SOUND = Path(__file__).parent.parent.parent / "assets/sounds/actor_shoot_sound.mp3"
+BACK_GROUND_SOUND = Path(__file__).parent.parent.parent / "assets/sounds/background_sound.mp3"
