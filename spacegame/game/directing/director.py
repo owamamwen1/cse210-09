@@ -80,7 +80,7 @@ class Director:
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
 
-        if (time.perf_counter() - self._enemy_t > 5):
+        if (time.perf_counter() - self._enemy_t > 3):
             new_enemy = Enemy()
             pos_x = max_x
             pos_y = random.randrange(0,max_y - new_enemy.get_image_height())
@@ -107,9 +107,15 @@ class Director:
             enemy.move_next(max_x, max_y)
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
-                    cast.remove_actor("player_bullets", bullet)
-                    cast.remove_actor("enemies", enemy)
+                    try:
+                        cast.remove_actor("enemies", enemy)
+                    except:
+                        print('Could not delete ' + str(enemy))
 
+                    try:
+                        cast.remove_actor("player_bullets", bullet)
+                    except:
+                        print('Could not delete ' + str(bullet))
     # The game over
 
     def _is_over(self):

@@ -68,7 +68,7 @@ class Main_ship(Actor):
     def is_recharged(self):
         t_now = time.perf_counter()
         diff = t_now - self._t
-        return diff > .5
+        return diff > .3
 
     def uncharge(self):
         self._t = time.perf_counter()
