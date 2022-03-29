@@ -1,7 +1,6 @@
-from game.shared.gameconstants import *
+from game.shared.gamecontants import *
 import pygame
 from pygame import mixer
-import game.casting.enemies
 
 
 class DisplayService:
@@ -19,16 +18,14 @@ class DisplayService:
         self._width = width
         self._height = height
         self._iconlogo = pygame.image.load(LOGO_IMAGE)
-        self._background = pygame.image.load(BACKGROUND_IMAGE)
+        self._background = pygame.image.load(BACK_GROUND_IMAGE)
         # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
         self._frame_duration = int(1000 / frame_rate)
 
-     # The background sound
+    # The background sound
     def background_sound(self):
-        BACKGROUND_MUSIC = mixer.Sound(BACKGROUND_SOUND)
-        BACKGROUND_MUSIC.set_volume(0.2)
-        BACKGROUND_MUSIC.play(-1)
-
+        mixer.music.load(BACK_GROUND_SOUND)
+        mixer.music.play(-1)
 
     def draw_actor(self, actor):
         """Draws the given actor's text on the screen.
