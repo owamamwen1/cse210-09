@@ -1,6 +1,12 @@
+from hashlib import new
 from game.casting.bullet import Bullet
+from game.casting.enemy import Enemy
+from game.shared.point import Point
 
 import pygame
+import time
+import random
+
 
 
 class Director:
@@ -32,6 +38,8 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._display_service.open_window()
+        self._init_t = time.perf_counter()
+        self._enemy_t = time.perf_counter()
 
         run = True
         frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
@@ -72,6 +80,14 @@ class Director:
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
 
+        if (time.perf_counter() - self._enemy_t > 5):
+            new_enemy = Enemy()
+            pos_x = max_x
+            pos_y = random.randrange(0,max_y - new_enemy.get_image_height())
+            new_enemy.set_position(Point(pos_x, pos_y))
+            cast.add_actor("enemies", new_enemy)
+            self._enemy_t = time.perf_counter()
+
         if (player_ship.is_shooting() and player_ship.is_recharged()):
             new_bullet = Bullet(player_ship.get_center(), 0)
             cast.add_actor("player_bullets", new_bullet)
@@ -85,6 +101,10 @@ class Director:
         #    if (COLIDING WITH ENEMY):
         #        REMOVE LIFE FROM ENEMY
         #        DELETE BULLET
+
+        enemies = cast.get_actors("enemies")
+        for enemy in enemies:
+            enemy.move_next(max_x, max_y)
 
     # The game over
 

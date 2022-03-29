@@ -32,16 +32,16 @@ class KeyboardService:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:  # We can check if a key is pressed like this
-            self._dx = -3
+            self._dx = -6
 
         if keys[pygame.K_RIGHT]:
-            self._dx = 3
+            self._dx = 6
 
         if keys[pygame.K_UP]:
-            self._dy = -3
+            self._dy = -6
 
         if keys[pygame.K_DOWN]:
-            self._dy = 3
+            self._dy = 6
 
         direction = Point(self._dx, self._dy)
 

@@ -9,7 +9,7 @@ class Main_ship(Actor):
     """
     """
 
-    def __init__(self, pos, num=0):
+    def __init__(self, pos):
         """
         """
         super().__init__()
