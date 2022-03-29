@@ -45,6 +45,16 @@ class Actor:
         """
         return self._velocity
 
+    def get_center(self):
+        """Gets the actor's center point.
+
+        Returns:
+            Point: The actor's center point.
+        """
+        pos_x = self._position.get_x() + (self.get_image_width() / 2)
+        pos_y = self._position.get_y() + (self.get_image_height() / 2)
+        return Point(pos_x, pos_y)
+
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity.
 
@@ -93,3 +103,14 @@ class Actor:
             velocity (Point): The given velocity.
         """
         self._velocity = velocity
+    
+    def set_center(self, pos):
+        """Sets the actor's center point ate the given position.
+
+        Args:
+            Point: The desired position for the actor's center.
+        """
+        pos_x = pos.get_x() - (self.get_image_width() / 2)
+        pos_y = pos.get_y() - (self.get_image_height() / 2)
+        self._position = Point(pos_x, pos_y)
+

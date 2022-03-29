@@ -12,7 +12,7 @@ class Main_ship(Actor):
         """
         """
         super().__init__()
-        self.set_position(pos)
+        self.set_center(pos)
         self._keyboard_service = KeyboardService()
         self._dead = False
         self._previous_position = pos

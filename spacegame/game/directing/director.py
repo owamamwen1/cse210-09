@@ -73,7 +73,7 @@ class Director:
         player_ship.move_next(max_x, max_y)
 
         if (player_ship.is_shooting() and player_ship.is_recharged()):
-            new_bullet = Bullet(player_ship.get_position(), 0)
+            new_bullet = Bullet(player_ship.get_center(), 0)
             cast.add_actor("player_bullets", new_bullet)
             player_ship.uncharge()
 

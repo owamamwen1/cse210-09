@@ -22,7 +22,7 @@ class DisplayService:
         # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
         self._frame_duration = int(1000 / frame_rate)
 
-     # The background sound
+    # The background sound
     def background_sound(self):
         mixer.music.load(BACK_GROUND_SOUND)
         mixer.music.play(-1)
