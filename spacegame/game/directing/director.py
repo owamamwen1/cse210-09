@@ -80,6 +80,8 @@ class Director:
         player_bullets = cast.get_actors("player_bullets")
         for bullet in player_bullets:
             bullet.move_next(max_x, max_y)
+            if (bullet.get_position().get_x() > max_x):
+                cast.remove_actor("player_bullets", bullet)
         #    if (COLIDING WITH ENEMY):
         #        REMOVE LIFE FROM ENEMY
         #        DELETE BULLET

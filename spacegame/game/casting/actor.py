@@ -62,26 +62,8 @@ class Actor:
             max_x (int): The maximum x value.
             max_y (int): The maximum y value.
         """
-        pos_x = self._position.get_x()
-        pos_y = self._position.get_y()
-        vel_x = self._velocity.get_x()
-        vel_y = self._velocity.get_y()
-        image_width = self.get_image_width()
-        image_height = self.get_image_height()
-
-        if (pos_x + vel_x + image_width > max_x):
-            x = max_x - image_width
-        elif (pos_x + vel_x < 0):
-            x = 0
-        else:
-            x = (pos_x + vel_x)
-
-        if (pos_y + vel_y + image_height > max_y):
-            y = max_y - image_height
-        elif (pos_y + vel_y < 0):
-            y = 0
-        else:
-            y = (pos_y + vel_y)
+        x = (self._position.get_x() + self._velocity.get_x())
+        y = (self._position.get_y() + self._velocity.get_y())
 
         self._position = Point(x, y)
 
