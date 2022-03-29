@@ -16,13 +16,14 @@ class Bullet(Actor):
         """
         """
         super().__init__()
-        self.set_position(pos)
+        self.set_center(pos)
         self._dead = False
-        self._previous_position = pos
         if (direction == 0):
             self.set_image(pygame.image.load(BULLET_IMAGE))
+            self.set_center(pos)
             self.set_velocity(Point(20, 0))
             self.actor_sound.play()
         if (direction == 1):
             self.set_image(pygame.image.load(BULLET_ENEMY_IMAGE))
+            self.set_center(pos)
             self.set_velocity(Point(-63, 0))
