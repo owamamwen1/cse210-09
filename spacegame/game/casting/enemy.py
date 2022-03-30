@@ -18,6 +18,7 @@ class Enemy(Actor):
         self._dead = False
         self._t = time.perf_counter()
         self._go_to = self.get_random_point(MAX_X, MAX_Y)
+        self._health = 30
 
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity.
@@ -73,6 +74,17 @@ class Enemy(Actor):
 
         return tolerance ** 2 > (go_x - pos_x) ** 2 + (go_y - pos_y) ** 2
 
+    def add_to_health(self, points):
+        """"""
+        if (self._health + points <= 0):
+            self._health = 0
+        else:
+            self._health += points
+
+    def get_health(self):
+        """"""
+        return self._health
+
     def die(self):
         """
         """
@@ -81,7 +93,7 @@ class Enemy(Actor):
     def is_recharged(self):
         t_now = time.perf_counter()
         diff = t_now - self._t
-        return diff > .5
+        return diff > 1.5
 
     def uncharge(self):
         self._t = time.perf_counter()

@@ -1,4 +1,5 @@
 from hashlib import new
+from operator import countOf
 from game.casting.bullet import Bullet
 from game.casting.enemy import Enemy
 from game.shared.point import Point
@@ -98,24 +99,41 @@ class Director:
             bullet.move_next(max_x, max_y)
             if (bullet.get_position().get_x() > max_x):
                 cast.remove_actor("player_bullets", bullet)
-        #    if (COLIDING WITH ENEMY):
-        #        REMOVE LIFE FROM ENEMY
-        #        DELETE BULLET
 
         enemies = cast.get_actors("enemies")
         for enemy in enemies:
             enemy.move_next(max_x, max_y)
+            if (enemy.is_recharged()):
+                new_bullet = Bullet(enemy.get_center(), 1)
+                cast.add_actor("enemy_bullets", new_bullet)
+                enemy.uncharge()
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
-                    try:
-                        cast.remove_actor("enemies", enemy)
-                    except:
-                        print('Could not delete ' + str(enemy))
-
                     try:
                         cast.remove_actor("player_bullets", bullet)
                     except:
                         print('Could not delete ' + str(bullet))
+                    enemy.add_to_health(-10)
+                    if (enemy.get_health() == 0):
+                        try:
+                            cast.remove_actor("enemies", enemy)
+                        except:
+                            print('Could not delete ' + str(enemy))
+
+        enemy_bullets = cast.get_actors("enemy_bullets")
+        for bullet in enemy_bullets:
+            bullet.move_next(max_x, max_y)
+            if (bullet.get_position().get_x() < bullet.get_image_width() * -1):
+                cast.remove_actor("enemy_bullets", bullet)
+            if (self.check_collision(bullet, player_ship)):
+                try:
+                    cast.remove_actor("enemy_bullets", bullet)
+                except:
+                    print('Could not delete ' + str(bullet))
+                player_ship.add_to_health(-10)
+                print(player_ship.get_health())
+                if (player_ship.get_health() == 0):
+                    print("Game over!")
     # The game over
 
     def _is_over(self):

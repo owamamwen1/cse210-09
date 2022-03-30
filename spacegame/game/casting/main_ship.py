@@ -18,6 +18,7 @@ class Main_ship(Actor):
         self._dead = False
         self._previous_position = pos
         self._t = time.perf_counter()
+        self._health = 500
 
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity.
@@ -54,6 +55,17 @@ class Main_ship(Actor):
         """
         velocity = self._keyboard_service.get_direction()
         return velocity
+
+    def add_to_health(self, points):
+        """"""
+        if (self._health + points <= 0):
+            self._health = 0
+        else:
+            self._health += points
+
+    def get_health(self):
+        """"""
+        return self._health
 
     def die(self):
         """
