@@ -1,5 +1,3 @@
-from hashlib import new
-from operator import countOf
 from game.casting.bullet import Bullet
 from game.casting.enemy import Enemy
 from game.shared.point import Point
@@ -40,7 +38,7 @@ class Director:
         """
         self._display_service.open_window()
         self._init_t = time.perf_counter()
-        self._enemy_t = time.perf_counter()
+        self._enemy_t = time.perf_counter() - 2.5
 
         run = True
         frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
@@ -109,6 +107,7 @@ class Director:
                 enemy.uncharge()
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
+                    player_ship.set_vector_vel(player_ship.get_vector_vel() + 1)
                     try:
                         cast.remove_actor("player_bullets", bullet)
                     except:

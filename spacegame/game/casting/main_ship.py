@@ -1,24 +1,19 @@
-from game.casting.actor import Actor
+from game.casting.ship import Ship
 from game.services.keyboard_service import KeyboardService
 from game.shared.gamecontants import *
 from game.shared.point import Point
-import time
 
 
-class Main_ship(Actor):
+class Main_ship(Ship):
     """
     """
 
-    def __init__(self, pos):
+    def __init__(self, pos = Point(0, 0), image = ACTOR_IMAGE, health = 500, vector_vel = 6, shoot_rate = .2):
         """
         """
-        super().__init__()
+        super().__init__(pos, image, health, vector_vel, shoot_rate)
         self.set_center(pos)
-        self._keyboard_service = KeyboardService()
-        self._dead = False
-        self._previous_position = pos
-        self._t = time.perf_counter()
-        self._health = 500
+        self._keyboard_service = KeyboardService(self._vector_vel)
 
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity.
@@ -50,37 +45,19 @@ class Main_ship(Actor):
 
         self._position = Point(x, y)
 
+    def set_vector_vel(self, vel):
+        """
+        """
+        super().set_vector_vel(vel)
+        self._keyboard_service.set_velocity(vel)
+
     def get_direction(self):
         """
         """
         velocity = self._keyboard_service.get_direction()
         return velocity
 
-    def add_to_health(self, points):
-        """"""
-        if (self._health + points <= 0):
-            self._health = 0
-        else:
-            self._health += points
-
-    def get_health(self):
-        """"""
-        return self._health
-
-    def die(self):
-        """
-        """
-        self._dead = True
-
     def is_shooting(self):
         """
         """
         return self._keyboard_service.is_shooting()
-
-    def is_recharged(self):
-        t_now = time.perf_counter()
-        diff = t_now - self._t
-        return diff > .3
-
-    def uncharge(self):
-        self._t = time.perf_counter()

@@ -11,13 +11,14 @@ class KeyboardService:
     Attributes:
     """
 
-    def __init__(self):
+    def __init__(self, velocity = 5):
         """Constructs a new KeyboardService.
 
         Args:
         """
         self._dx = 0
         self._dy = 0
+        self._velocity = velocity
 
     def get_direction(self):
         """Gets the selected direction based on the currently pressed keys.
@@ -32,20 +33,24 @@ class KeyboardService:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:  # We can check if a key is pressed like this
-            self._dx = -6
+            self._dx = self._velocity * -1
 
         if keys[pygame.K_RIGHT]:
-            self._dx = 6
+            self._dx = self._velocity
 
         if keys[pygame.K_UP]:
-            self._dy = -6
+            self._dy = self._velocity * -1
 
         if keys[pygame.K_DOWN]:
-            self._dy = 6
+            self._dy = self._velocity
 
         direction = Point(self._dx, self._dy)
 
         return direction
+
+    def set_velocity(self, vel):
+        print(vel)
+        self._velocity = vel
 
     def is_shooting(self):
         """

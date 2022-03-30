@@ -68,7 +68,7 @@ class Actor:
         self._position = Point(x, y)
 
     def set_image(self, image):
-        self._image = image
+        self._image = pygame.image.load(image)
 
     def set_position(self, position):
         """Updates the position to the given one.

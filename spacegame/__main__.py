@@ -15,7 +15,6 @@ def main():
     # The next line is just a facy way of positioning proportionally to the screen size.
     position = Point(int(MAX_X / 20), int(MAX_Y / 2))
     player_ship = Main_ship(position)
-    player_ship.set_velocity(Point(0, 0))
     cast.add_actor("player_ship", player_ship)
 
     # start the game
