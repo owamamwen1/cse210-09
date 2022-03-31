@@ -1,10 +1,8 @@
 ### NEEDS TO BE UPDATED
 
-# GREED
+# Galaxia
 
-Let the GREED overcome you! Gather falling rubys and enrich yourself, but watch out! Falling rocks will rob you of your hard earned riches. GREED is a fun-time collect and avoid game that will either leave you rich or leave you broke in more ways than one!
-
-
+galaxia description...
 
 ## Getting Started
 
@@ -20,7 +18,7 @@ Mac: python3 -m pip install -U raylib --user
 
 After you've installed the required libraries, open a terminal and browse to the project's root folder. Start the program by running the following command.```
 
-python3 greed
+python3 spacegame
 
 ```
 You can also run the program from an IDE like Visual Studio Code. Start your IDE and open the
@@ -31,15 +29,13 @@ project folder. Select the main module inside the greed folder and click the "ru
 The project files and folders are organized as follows:
 ```
 
-root (project root folder) 
+root (project root folder)
 
-+-- greed (source code for game) 
++-- spacegame (source code for game)
 
-+-- data (data files for game) 
++-- game (specific game classes)
 
-+-- game (specific game classes) 
-
-+-- **main**.py (entry point for program) 
++-- **main**.py (entry point for program)
 
 +-- README.md (general info)
 
@@ -47,7 +43,7 @@ root (project root folder)
 
 +-- pyproject.toml (project info)
 
-+-- requirements.txt (raylib and python version requirements)
++-- requirements.txt (program versions requirements)
 
 +-- setup.py (Setup file for pip install -e support)
 
@@ -57,10 +53,12 @@ root (project root folder)
 ---
 * Python 3.8.0
 * Raylib Python CFFI 4.0.0.5
+* Pygame 2.1.2
+* Pathlib
 
 ## Authors
 ---
-* # Aaron Gusa 
+* # Aaron Gusa
 * # Eugene Kartey
 * # Sheyla Norton
 * # Owamamwen Ogunniyi

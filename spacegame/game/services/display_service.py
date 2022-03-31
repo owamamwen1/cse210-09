@@ -25,6 +25,7 @@ class DisplayService:
     # The background sound
     def background_sound(self):
         mixer.music.load(BACK_GROUND_SOUND)
+        mixer.music.set_volume(0.2)
         mixer.music.play(-1)
 
     def draw_actor(self, actor):
