@@ -14,6 +14,7 @@ class Main_ship(Ship):
         super().__init__(pos, image, health, vector_vel, shoot_rate)
         self.set_center(pos)
         self._keyboard_service = KeyboardService(self._vector_vel)
+        self._points = 0
 
     def move_next(self, max_x, max_y):
         """Moves the actor to its next position according to its velocity.
@@ -61,3 +62,18 @@ class Main_ship(Ship):
         """
         """
         return self._keyboard_service.is_shooting()
+
+    def add_to_points(self, points):
+        """
+        """
+        self._points += points
+
+    def set_points(self, points):
+        """
+        """
+        self._points = points
+
+    def get_points(self):
+        """
+        """
+        return self._points
