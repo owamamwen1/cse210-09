@@ -1,4 +1,4 @@
-from game.shared.gamecontants import *
+from game.shared.gameconstants import *
 from game.casting.cast import Cast
 from game.casting.main_ship import Main_ship
 from game.casting.banner import Banner

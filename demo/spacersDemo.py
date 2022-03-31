@@ -18,21 +18,22 @@ ENEMY_WIDTH, ENEMY_HEIGHT = 85, 85
 
 # LOAD IMAGES
 ## Characters
-HERO = pygame.transform.scale(pygame.transform.rotate(pygame.image.load(pathlib.Path(__file__).parent / 'hero.png'), -90), (SHIP_WIDTH, SHIP_HEIGHT))
-ENEMY_1 = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'enemy1.png'), (ENEMY_WIDTH, ENEMY_HEIGHT))
-ENEMY_2 = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'enemy2.png'), ((ENEMY_WIDTH, ENEMY_HEIGHT))), 90)
+HERO = pygame.transform.scale(pygame.transform.rotate(pygame.image.load(pathlib.Path(__file__).parent / 'source/hero.png'), -90), (SHIP_WIDTH, SHIP_HEIGHT))
+ENEMY_1 = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'source/enemy1.png'), (ENEMY_WIDTH, ENEMY_HEIGHT))
+ENEMY_2 = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'source/enemy2.png'), ((ENEMY_WIDTH, ENEMY_HEIGHT))), 90)
 ## Lasers
-HERO_LASER = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'heroLaser.png'),(SHIP_WIDTH * 0.8, SHIP_HEIGHT))
-E1_LASER = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'enemy1Laser.png'),(ENEMY_WIDTH , ENEMY_HEIGHT* 0.4))
-E2_LASER = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'enemy2Laser.png'),(ENEMY_WIDTH , ENEMY_HEIGHT* 0.6))
+HERO_LASER = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'source/heroLaser.png'),(SHIP_WIDTH * 0.8, SHIP_HEIGHT))
+E1_LASER = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'source/enemy1Laser.png'),(ENEMY_WIDTH , ENEMY_HEIGHT* 0.4))
+E2_LASER = pygame.transform.scale(pygame.image.load(pathlib.Path(__file__).parent / 'source/enemy2Laser.png'),(ENEMY_WIDTH , ENEMY_HEIGHT* 0.6))
 ## BACKGROUND
-BG = pygame.image.load(pathlib.Path(__file__).parent / 'background.png')
+BG = pygame.image.load(pathlib.Path(__file__).parent / 'source/background.png')
 
 #AUDIO
-HERO_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'doublelaser.mp3')
-E1_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'vortex.mp3')
-E2_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'heavylaser.mp3')
-
+HERO_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'source/doublelaser.mp3')
+E1_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'source/vortex.mp3')
+E2_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'source/heavylaser.mp3')
+H_COLLISION_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'source/crash.mp3')
+E_COLLISION_AUDIO = pygame.mixer.Sound(pathlib.Path(__file__).parent / 'source/shotdown.mp3')
 
 # FONT
 main_font = pygame.font.SysFont('impact', 40)
@@ -111,6 +112,7 @@ class Ship():
             if laser.on_screen(WIDTH) == False:
                 self.lasers.remove(laser)
             elif laser.hit(obj):
+                H_COLLISION_AUDIO.play()
                 obj.health -= 10
                 self.lasers.remove(laser)
 
@@ -133,6 +135,7 @@ class Hero(Ship):
             else: 
                 for obj in objs:
                     if laser.hit(obj):
+                        E_COLLISION_AUDIO.play()
                         objs.remove(obj)
                         if laser in self.lasers:
                               self.lasers.remove(laser)
