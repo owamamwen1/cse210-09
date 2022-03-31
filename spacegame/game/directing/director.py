@@ -1,5 +1,6 @@
 from game.casting.bullet import Bullet
 from game.casting.enemy import Enemy
+from game.casting.banner import Banner
 from game.shared.point import Point
 
 import pygame
@@ -39,22 +40,43 @@ class Director:
         self._display_service.open_window()
         self._init_t = time.perf_counter() # Set the initial time counter
         self._enemy_t = time.perf_counter() # Set the initial enemy time counter
-        self._enemy_rate = 3 # Enemies will appear enach 3 seconds
+        self._enemy_rate = 3 # Enemies will appear each 3 seconds
 
         run = True
+        quit_game = False
         frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
 
         while run:
             pygame.time.delay(frame_duration) # This line determines the time of each frame (actually it says to the program to wait a certain amout of time before executing the next steps).
             for event in pygame.event.get():
+                # If player press the window X set quit_game to true and stops this loop
                 if event.type == pygame.QUIT:
                     run = False
+                    quit_game = True
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
             if self._is_over():
                 run = False
-                self.__game_over = False # Not sure if this line here is necessary
+
+
+        # If the player had pressed X before then quit_game will be true and the game over message won't be displayed.
+        if not quit_game:
+            game_over_message = Banner(Point(0,0), 'Game Over', 60)
+            max_x = self._display_service.get_width()
+            max_y = self._display_service.get_height()
+            game_over_message.set_center(Point(max_x / 2, max_y / 2))
+            cast.add_actor("game_over_message", game_over_message)
+
+            run = True
+            while run:
+                # This new loop don't get new inputs neither do new updates (so the game "freezes")
+                pygame.time.delay(frame_duration)
+                self._do_outputs(cast)
+                # If the player press the window X this loop stops
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
 
     def _get_inputs(self, cast):
         """Gets directional input from the keyboard and applies it to the players.
@@ -79,6 +101,13 @@ class Director:
         max_x = self._display_service.get_width()
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
+
+        # get and update health banner
+        health_banner = cast.get_first_actor("health_banner")
+        health_banner.set_text("Health: " + str(player_ship.get_health()))
+
+        # get score banner
+        score_banner = cast.get_first_actor("score_banner")
 
         # Check if passed enought time to create a new enemy
         if (time.perf_counter() - self._enemy_t > self._enemy_rate):
@@ -117,6 +146,11 @@ class Director:
                     cast.remove_actor("player_bullets", bullet)
                     # Remove health from enemy
                     enemy.add_to_health(-10)
+                    # Updates player points
+                    player_ship.add_to_points(10)
+                    score_banner.set_text("Score: " + str(player_ship.get_points()))
+                    # Realign score banner on the right
+                    score_banner.set_position(Point(max_x - score_banner.get_image_width(), 0))
                     if (enemy.get_health() == 0):
                         cast.remove_actor("enemies", enemy)
 
@@ -132,8 +166,7 @@ class Director:
                 # Remove health from player
                 player_ship.add_to_health(-10)
                 if (player_ship.get_health() == 0):
-                    # IMPLEMENT GAME OVER MESSAGE HERE
-                    print("Game over!")
+                    self.__game_over = True
 
     def _is_over(self):
         return self.__game_over
