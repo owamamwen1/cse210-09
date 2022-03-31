@@ -7,7 +7,7 @@ class Enemy(Ship):
     """
     """
 
-    def __init__(self, pos = Point(0, 0), image = ENEMY_IMAGE, health = 30, vector_vel = 3, shoot_rate = .5):
+    def __init__(self, pos = Point(0, 0), image = ENEMY_IMAGE, health = 30, vector_vel = 3, shoot_rate = 1):
         """"""
         super().__init__(pos, image, health, vector_vel, shoot_rate)
         self._go_to = self.get_random_point(MAX_X, MAX_Y)

@@ -24,10 +24,10 @@ class Actor:
         return self._image
     
     def get_image_height(self):
-        return self._image.get_height()
+        return self.get_image().get_height()
     
     def get_image_width(self):
-        return self._image.get_width()
+        return self.get_image().get_width()
 
     def get_position(self):
         """Gets the actor's position in 2d space.
