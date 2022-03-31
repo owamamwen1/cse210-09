@@ -107,7 +107,6 @@ class Director:
                 enemy.uncharge()
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
-                    player_ship.set_vector_vel(player_ship.get_vector_vel() + 1)
                     try:
                         cast.remove_actor("player_bullets", bullet)
                     except:
