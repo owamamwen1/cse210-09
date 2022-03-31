@@ -72,4 +72,7 @@ class Cast:
             actor (Actor): The actor to remove.
         """
         if group in self._actors:
-            self._actors[group].remove(actor)
+            try:
+                self._actors[group].remove(actor)
+            except:
+                print('Could not delete ' + str(actor))

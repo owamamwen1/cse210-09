@@ -37,8 +37,9 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._display_service.open_window()
-        self._init_t = time.perf_counter()
-        self._enemy_t = time.perf_counter() - 2.5
+        self._init_t = time.perf_counter() # Set the initial time counter
+        self._enemy_t = time.perf_counter() # Set the initial enemy time counter
+        self._enemy_rate = 3 # Enemies will appear enach 3 seconds
 
         run = True
         frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
@@ -79,19 +80,23 @@ class Director:
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
 
-        if (time.perf_counter() - self._enemy_t > 3):
+        # Check if passed enought time to create a new enemy
+        if (time.perf_counter() - self._enemy_t > self._enemy_rate):
             new_enemy = Enemy()
+            # Place the enemy at a random position
             pos_x = max_x
-            pos_y = random.randrange(0,max_y - new_enemy.get_image_height())
+            pos_y = random.randrange(0, max_y - new_enemy.get_image_height())
             new_enemy.set_position(Point(pos_x, pos_y))
             cast.add_actor("enemies", new_enemy)
             self._enemy_t = time.perf_counter()
 
+        # Add player shots
         if (player_ship.is_shooting() and player_ship.is_recharged()):
             new_bullet = Bullet(player_ship.get_center(), 0)
             cast.add_actor("player_bullets", new_bullet)
             player_ship.uncharge()
 
+        # Remove player bullets that go outside screen boundaries
         player_bullets = cast.get_actors("player_bullets")
         for bullet in player_bullets:
             bullet.move_next(max_x, max_y)
@@ -101,38 +106,34 @@ class Director:
         enemies = cast.get_actors("enemies")
         for enemy in enemies:
             enemy.move_next(max_x, max_y)
+            # Add enemy shots
             if (enemy.is_recharged()):
                 new_bullet = Bullet(enemy.get_center(), 1)
                 cast.add_actor("enemy_bullets", new_bullet)
                 enemy.uncharge()
+            # Check if a player bullet hit the enemy 
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
-                    try:
-                        cast.remove_actor("player_bullets", bullet)
-                    except:
-                        print('Could not delete ' + str(bullet))
+                    cast.remove_actor("player_bullets", bullet)
+                    # Remove health from enemy
                     enemy.add_to_health(-10)
                     if (enemy.get_health() == 0):
-                        try:
-                            cast.remove_actor("enemies", enemy)
-                        except:
-                            print('Could not delete ' + str(enemy))
+                        cast.remove_actor("enemies", enemy)
 
         enemy_bullets = cast.get_actors("enemy_bullets")
         for bullet in enemy_bullets:
             bullet.move_next(max_x, max_y)
+            # Remove enemy bullets that go outside screen boundaries
             if (bullet.get_position().get_x() < bullet.get_image_width() * -1):
                 cast.remove_actor("enemy_bullets", bullet)
+            # Check if a enemy bullet hit the player 
             if (self.check_collision(bullet, player_ship)):
-                try:
-                    cast.remove_actor("enemy_bullets", bullet)
-                except:
-                    print('Could not delete ' + str(bullet))
+                cast.remove_actor("enemy_bullets", bullet)
+                # Remove health from player
                 player_ship.add_to_health(-10)
-                print(player_ship.get_health())
                 if (player_ship.get_health() == 0):
+                    # IMPLEMENT GAME OVER MESSAGE HERE
                     print("Game over!")
-    # The game over
 
     def _is_over(self):
         return self.__game_over
