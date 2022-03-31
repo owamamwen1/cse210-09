@@ -102,9 +102,6 @@ class Director:
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
 
-        # get and update health banner
-        health_banner = cast.get_first_actor("health_banner")
-        health_banner.set_text("Health: " + str(player_ship.get_health()))
 
         # get score banner
         score_banner = cast.get_first_actor("score_banner")
@@ -168,6 +165,10 @@ class Director:
                 if (player_ship.get_health() == 0):
                     self.__game_over = True
 
+        # get and update health banner
+        health_banner = cast.get_first_actor("health_banner")
+        health_banner.set_text("Health: " + str(player_ship.get_health()))
+        
     def _is_over(self):
         return self.__game_over
 
