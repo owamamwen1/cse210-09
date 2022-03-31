@@ -6,7 +6,35 @@ from game.directing.director import Director
 from game.services.keyboard_service import KeyboardService
 from game.services.display_service import DisplayService
 from game.shared.point import Point
+import pathlib
+import pygame
+pygame.font.init()
 
+
+def mainMenu():
+    WIN = pygame.display.set_mode((MAX_X,MAX_Y))
+    LOGO = pygame.image.load(LOGO_IMAGE)
+    SPLASH = pygame.transform.scale(pygame.image.load(SPLASH_IMAGE), (MAX_X, MAX_Y))
+
+    #run 
+    run = True
+
+    #Menu loop
+    while run:
+        WIN.blit(SPLASH, (0,0))
+        pygame.display.set_caption(CAPTION)
+        pygame.display.set_icon(LOGO)
+        pygame.display.update()
+        for event in pygame.event.get():
+            #quit event 
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                main()
+    
+    
+    
+    pygame.quit()
 
 def main():
 
@@ -36,4 +64,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    mainMenu()

@@ -11,9 +11,10 @@ PLAYER_SIZE = 15
 CENTER = "center"
 COLS = 60
 ROWS = 40
-CAPTION = "Space Game"
+CAPTION = "GALAXIA"
 WHITE = Color(255, 255, 255)
 
+SPLASH_IMAGE = Path(__file__).parent.parent / "assets/images/splash.png" 
 ACTOR_IMAGE = Path(__file__).parent.parent / "assets/images/actor.png"
 ENEMY_IMAGE = Path(__file__).parent.parent / "assets/images/enemy.png"
 BACK_GROUND_IMAGE = Path(__file__).parent.parent /"assets/images/background.png"
