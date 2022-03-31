@@ -1,6 +1,6 @@
 from game.casting.ship import Ship
 from game.services.keyboard_service import KeyboardService
-from game.shared.gamecontants import *
+from game.shared.gameconstants import *
 from game.shared.point import Point
 
 

@@ -1,4 +1,4 @@
-from game.shared.gamecontants import *
+from game.shared.gameconstants import *
 import pygame
 from pygame import mixer
 

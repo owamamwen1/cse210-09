@@ -1,6 +1,6 @@
 from game.casting.actor import Actor
 from game.shared.point import Point
-from game.shared.gamecontants import *
+from game.shared.gameconstants import *
 import pygame
 
 import time

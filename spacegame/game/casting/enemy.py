@@ -1,5 +1,5 @@
 from game.casting.ship import Ship
-from game.shared.gamecontants import *
+from game.shared.gameconstants import *
 from game.shared.point import Point
 import random
 
