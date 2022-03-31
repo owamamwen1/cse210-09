@@ -1,4 +1,3 @@
-from hashlib import new
 from game.casting.bullet import Bullet
 from game.casting.enemy import Enemy
 from game.shared.point import Point
@@ -39,7 +38,7 @@ class Director:
         """
         self._display_service.open_window()
         self._init_t = time.perf_counter()
-        self._enemy_t = time.perf_counter()
+        self._enemy_t = time.perf_counter() - 2.5
 
         run = True
         frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
@@ -80,7 +79,7 @@ class Director:
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
 
-        if (time.perf_counter() - self._enemy_t > 5):
+        if (time.perf_counter() - self._enemy_t > 3):
             new_enemy = Enemy()
             pos_x = max_x
             pos_y = random.randrange(0,max_y - new_enemy.get_image_height())
@@ -98,18 +97,42 @@ class Director:
             bullet.move_next(max_x, max_y)
             if (bullet.get_position().get_x() > max_x):
                 cast.remove_actor("player_bullets", bullet)
-        #    if (COLIDING WITH ENEMY):
-        #        REMOVE LIFE FROM ENEMY
-        #        DELETE BULLET
 
         enemies = cast.get_actors("enemies")
         for enemy in enemies:
             enemy.move_next(max_x, max_y)
+            if (enemy.is_recharged()):
+                new_bullet = Bullet(enemy.get_center(), 1)
+                cast.add_actor("enemy_bullets", new_bullet)
+                enemy.uncharge()
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
-                    cast.remove_actor("player_bullets", bullet)
-                    cast.remove_actor("enemies", enemy)
+                    player_ship.set_vector_vel(player_ship.get_vector_vel() + 1)
+                    try:
+                        cast.remove_actor("player_bullets", bullet)
+                    except:
+                        print('Could not delete ' + str(bullet))
+                    enemy.add_to_health(-10)
+                    if (enemy.get_health() == 0):
+                        try:
+                            cast.remove_actor("enemies", enemy)
+                        except:
+                            print('Could not delete ' + str(enemy))
 
+        enemy_bullets = cast.get_actors("enemy_bullets")
+        for bullet in enemy_bullets:
+            bullet.move_next(max_x, max_y)
+            if (bullet.get_position().get_x() < bullet.get_image_width() * -1):
+                cast.remove_actor("enemy_bullets", bullet)
+            if (self.check_collision(bullet, player_ship)):
+                try:
+                    cast.remove_actor("enemy_bullets", bullet)
+                except:
+                    print('Could not delete ' + str(bullet))
+                player_ship.add_to_health(-10)
+                print(player_ship.get_health())
+                if (player_ship.get_health() == 0):
+                    print("Game over!")
     # The game over
 
     def _is_over(self):
