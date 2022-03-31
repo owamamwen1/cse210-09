@@ -37,8 +37,9 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._display_service.open_window()
-        self._init_t = time.perf_counter()
-        self._enemy_t = time.perf_counter() - 2.5
+        self._init_t = time.perf_counter() # Set the initial time counter
+        self._enemy_t = time.perf_counter() # Set the initial enemy time counter
+        self._enemy_rate = 3 # Enemies will appear enach 3 seconds
 
         run = True
         frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
@@ -79,19 +80,23 @@ class Director:
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
 
-        if (time.perf_counter() - self._enemy_t > 3):
+        # Check if passed enought time to create a new enemy
+        if (time.perf_counter() - self._enemy_t > self._enemy_rate):
             new_enemy = Enemy()
+            # Place the enemy at a random position
             pos_x = max_x
-            pos_y = random.randrange(0,max_y - new_enemy.get_image_height())
+            pos_y = random.randrange(0, max_y - new_enemy.get_image_height())
             new_enemy.set_position(Point(pos_x, pos_y))
             cast.add_actor("enemies", new_enemy)
             self._enemy_t = time.perf_counter()
 
+        # Add player shots
         if (player_ship.is_shooting() and player_ship.is_recharged()):
             new_bullet = Bullet(player_ship.get_center(), 0)
             cast.add_actor("player_bullets", new_bullet)
             player_ship.uncharge()
 
+        # Remove player bullets that go outside screen boundaries
         player_bullets = cast.get_actors("player_bullets")
         for bullet in player_bullets:
             bullet.move_next(max_x, max_y)
@@ -101,39 +106,34 @@ class Director:
         enemies = cast.get_actors("enemies")
         for enemy in enemies:
             enemy.move_next(max_x, max_y)
+            # Add enemy shots
             if (enemy.is_recharged()):
                 new_bullet = Bullet(enemy.get_center(), 1)
                 cast.add_actor("enemy_bullets", new_bullet)
                 enemy.uncharge()
+            # Check if a player bullet hit the enemy 
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
-                    player_ship.set_vector_vel(player_ship.get_vector_vel() + 1)
-                    try:
-                        cast.remove_actor("player_bullets", bullet)
-                    except:
-                        print('Could not delete ' + str(bullet))
+                    cast.remove_actor("player_bullets", bullet)
+                    # Remove health from enemy
                     enemy.add_to_health(-10)
                     if (enemy.get_health() == 0):
-                        try:
-                            cast.remove_actor("enemies", enemy)
-                        except:
-                            print('Could not delete ' + str(enemy))
+                        cast.remove_actor("enemies", enemy)
 
         enemy_bullets = cast.get_actors("enemy_bullets")
         for bullet in enemy_bullets:
             bullet.move_next(max_x, max_y)
+            # Remove enemy bullets that go outside screen boundaries
             if (bullet.get_position().get_x() < bullet.get_image_width() * -1):
                 cast.remove_actor("enemy_bullets", bullet)
+            # Check if a enemy bullet hit the player 
             if (self.check_collision(bullet, player_ship)):
-                try:
-                    cast.remove_actor("enemy_bullets", bullet)
-                except:
-                    print('Could not delete ' + str(bullet))
+                cast.remove_actor("enemy_bullets", bullet)
+                # Remove health from player
                 player_ship.add_to_health(-10)
-                print(player_ship.get_health())
                 if (player_ship.get_health() == 0):
+                    # IMPLEMENT GAME OVER MESSAGE HERE
                     print("Game over!")
-    # The game over
 
     def _is_over(self):
         return self.__game_over
@@ -147,50 +147,29 @@ class Director:
         actors = cast.get_all_actors()
         self._display_service.draw_actors(actors)
 
-    def check_collision(self, actor1, actor2):
-        """"""
-        # Top actor 1
-        top_1 = actor1.get_position().get_y()
-        # Bottom actor 1
-        bottom_1 = top_1 + actor1.get_image_height()
-        # Left actor 1
-        left_1 = actor1.get_position().get_x()
-        # Right actor 1
-        right_1 = left_1 + actor1.get_image_width()
+    def check_collision(self, actor_1, actor_2):
+        """
+        """
 
+        # First, get the four corner points of actor_1's "collision box"
+        point_1 = actor_1.get_position()
+        point_2 = Point(point_1.get_x(), point_1.get_y() + actor_1.get_image_height())
+        point_3 = Point(point_1.get_x() + actor_1.get_image_width(), point_1.get_y())
+        point_4 = Point(point_2.get_x(), point_3.get_y())
+        actor1_points = [point_1, point_2, point_3, point_4]
 
-        # Top actor 2
-        top_2 = actor2.get_position().get_y()
-        # Bottom actor 2
-        bottom_2 = top_2 + actor2.get_image_height()
-        # Left actor 2
-        left_2 = actor2.get_position().get_x()
-        # Right actor 2
-        right_2 = left_2 + actor2.get_image_width()
+        # Then check if any of these points are inside actor_2's "collision box"
+        for point in actor1_points:
+            if self.is_inside_box(point, actor_2.get_position(), actor_2.get_image_width(), actor_2.get_image_height()):
+                return True
+        return False
 
-        #print("top_1 " + str(top_1) + "   bottom_1 " + str(bottom_1) + "   left_1 " + str(left_1) + "   right_1 " + str(right_1) + "   top_2 " + str(top_2) + "   bottom_2 " + str(bottom_2) + "   left_2 " + str(left_2) + "   right_2 " + str(right_2))
-
-        if (actor1.get_image_height() > actor2.get_image_height()):
-            temp = top_1
-            top_1 = top_2
-            top_2 = temp
-            temp = bottom_1
-            bottom_1 = bottom_2
-            bottom_2 = temp
-
-        if (actor1.get_image_width() > actor2.get_image_width()):
-            temp = left_1
-            left_1 = left_2
-            left_2 = temp
-            temp = right_1
-            right_1 = right_2
-            right_2 = temp
-
-        check1 = top_1 >= top_2 and top_1 <= bottom_2
-        check2 = right_1 <= right_2 and right_1 >= left_2
-        check3 = bottom_1 >= top_2 and bottom_1 <= bottom_2
-        check4 = left_1 <= right_2 and left_1 >= left_2
-
-        #print(str(check1) + " " + str(check2) + " " + str(check3) + " " + str(check4))
-
-        return ((check1 and check2) or (check2 and check3) or (check3 and check4) or (check4 and check1))
+    def is_inside_box(self, point_a, point_b, width, height):
+        """
+        """
+        return (
+            point_a.get_x() >= point_b.get_x() and
+            point_a.get_x() <= point_b.get_x() + width and
+            point_a.get_y() >= point_b.get_y() and
+            point_a.get_y() <= point_b.get_y() + height
+        )
