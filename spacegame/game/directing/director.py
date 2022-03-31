@@ -3,6 +3,7 @@ from game.casting.enemy import Enemy
 from game.casting.banner import Banner
 from game.shared.point import Point
 
+import pathlib
 import pygame
 import time
 import random
@@ -51,13 +52,24 @@ class Director:
             for event in pygame.event.get():
                 # If player press the window X set quit_game to true and stops this loop
                 if event.type == pygame.QUIT:
+                    pygame.mixer.music.fadeout(1000 * 2)
+                    pygame.mixer.music.unload()
+
                     run = False
                     quit_game = True
+                    pygame.mixer.music.load(pathlib.Path(__file__).parent.parent / 'assets/sounds/title_music.wav')
+                    pygame.mixer.music.play(-1)
+
+
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
             if self._is_over():
+                pygame.mixer.music.fadeout(1000 * 2)
+                pygame.mixer.music.unload()
                 run = False
+                pygame.mixer.music.load(pathlib.Path(__file__).parent.parent / 'assets/sounds/title_music.wav')
+                pygame.mixer.music.play(-1)
 
 
         # If the player had pressed X before then quit_game will be true and the game over message won't be displayed.
