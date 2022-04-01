@@ -15,7 +15,7 @@ CAPTION = "GALAXIA"
 WHITE = Color(255, 255, 255)
 
 SPLASH_IMAGE = Path(__file__).parent.parent / "assets/images/splash.png" 
-ACTOR_IMAGE = Path(__file__).parent.parent / "assets/images/actor.png"
+ACTOR_IMAGE = Path(__file__).parent.parent / "assets/images/hero.png"
 ENEMY_IMAGE = Path(__file__).parent.parent / "assets/images/enemy.png"
 BACK_GROUND_IMAGE = Path(__file__).parent.parent /"assets/images/background.png"
 LOGO_IMAGE = Path(__file__).parent.parent / "assets/images/logo.png"

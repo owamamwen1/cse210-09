@@ -1,8 +1,10 @@
-### NEEDS TO BE UPDATED
-
 # Galaxia
 
-galaxia description...
+Captain X is the last hope of the galactic empire to stop the alien invaders. Can he repel the invaders and bring peace to the galaxy?
+
+Captain X’s goal is to shoot all the invaders and get back home for his heroes welcome.
+-Use the arrow keys to move
+-Use the space bar to shoot
 
 ## Getting Started
 
