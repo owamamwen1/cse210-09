@@ -26,7 +26,7 @@ def mainMenu():
     while run:
         WIN.blit(SPLASH, (0,0))
         pygame.display.set_caption(CAPTION)
-        pygame.display.set_icon(LOGO)
+        pygame.display.set_icon(LOGO) 
         pygame.display.update()
         for event in pygame.event.get():
             #quit event 
@@ -59,6 +59,12 @@ def main():
     score_banner = Banner(Point(0,0),'Score: 0')
     score_banner.set_position(Point(MAX_X - score_banner.get_image_width(), 0))
     cast.add_actor("score_banner", score_banner)
+
+    # The level banner
+    level_banner = Banner(Point(0,0),'Level: 0')
+    level_banner.set_position(Point(MAX_X //2 - level_banner.get_image_width(), 0))
+    cast.add_actor("level_banner", level_banner)
+
 
     # start the game
     keyboard_service = KeyboardService()

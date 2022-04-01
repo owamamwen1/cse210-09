@@ -21,7 +21,7 @@ class Director:
     """
 
     def __init__(self, keyboard_service, display_service):
-        self._SCORE = 600
+        # self._SCORE = 600
         self.__game_over = False
         """Constructs a new Director using the specified keyboard and display services.
         
@@ -113,12 +113,17 @@ class Director:
         max_x = self._display_service.get_width()
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
+        level = 0 
+
+        #get level banner
+        level_banner = cast.get_first_actor("level_banner")
 
 
         # get score banner
         score_banner = cast.get_first_actor("score_banner")
 
-        # Check if passed enought time to create a new enemy
+
+        #Check if passed enought time to create a new enemy
         if (time.perf_counter() - self._enemy_t > self._enemy_rate):
             new_enemy = Enemy()
             # Place the enemy at a random position
@@ -127,6 +132,8 @@ class Director:
             new_enemy.set_position(Point(pos_x, pos_y))
             cast.add_actor("enemies", new_enemy)
             self._enemy_t = time.perf_counter()
+
+
 
         # Add player shots
         if (player_ship.is_shooting() and player_ship.is_recharged()):
@@ -158,10 +165,21 @@ class Director:
                     # Updates player points
                     player_ship.add_to_points(10)
                     score_banner.set_text("Score: " + str(player_ship.get_points()))
+
                     # Realign score banner on the right
                     score_banner.set_position(Point(max_x - score_banner.get_image_width(), 0))
                     if (enemy.get_health() == 0):
                         cast.remove_actor("enemies", enemy)
+
+        #updates level  
+        level_banner.set_text("Level: " + str(level))  #need updating
+
+            # Realign level banner on the center
+        level_banner.set_position(Point(max_x //2 - level_banner.get_image_width(), 10))
+        # if len(enemies) == 0:
+        #     level +=1
+            
+
 
         enemy_bullets = cast.get_actors("enemy_bullets")
         for bullet in enemy_bullets:
@@ -182,8 +200,8 @@ class Director:
         health_banner.set_text("Health: " + str(player_ship.get_health()))
 
         # get and update health banner
-        health_banner = cast.get_first_actor("health_banner")
-        health_banner.set_text("Health: " + str(player_ship.get_health()))
+        # health_banner = cast.get_first_actor("health_banner")
+        # health_banner.set_text("Health: " + str(player_ship.get_health())) #sn: is this repeated on purpose?
         
     def _is_over(self):
         return self.__game_over
