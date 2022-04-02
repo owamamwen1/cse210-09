@@ -18,13 +18,13 @@ class DisplayService:
         self._width = width
         self._height = height
         self._iconlogo = pygame.image.load(LOGO_IMAGE)
-        self._background = pygame.image.load(BACK_GROUND_IMAGE)
+        self._background = pygame.image.load(BACKGROUND_IMAGE)
         # Here we calculate the frame duration in milliseconds dividing 1000 by the frame rate.
         self._frame_duration = int(1000 / frame_rate)
 
     # The background sound
     def background_sound(self):
-        mixer.music.load(BACK_GROUND_SOUND)
+        mixer.music.load(BACKGROUND_SOUND)
         mixer.music.set_volume(0.2)
         mixer.music.play(-1)
 

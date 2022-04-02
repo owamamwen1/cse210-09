@@ -2,11 +2,13 @@ from game.casting.bullet import Bullet
 from game.casting.enemy import Enemy
 from game.casting.banner import Banner
 from game.shared.point import Point
-
+from game.shared.gameconstants import *
 import pathlib
 import pygame
 import time
 import random
+
+pygame.mixer.init()
 
 
 
@@ -57,9 +59,9 @@ class Director:
 
                     run = False
                     quit_game = True
-                    pygame.mixer.music.load(pathlib.Path(__file__).parent.parent / 'assets/sounds/title_music.wav')
+                    pygame.mixer.music.load(TITLE_MUSIC)
                     pygame.mixer.music.play(-1)
-
+                    
 
             self._get_inputs(cast)
             self._do_updates(cast)
@@ -68,9 +70,9 @@ class Director:
                 pygame.mixer.music.fadeout(1000 * 2)
                 pygame.mixer.music.unload()
                 run = False
-                pygame.mixer.music.load(pathlib.Path(__file__).parent.parent / 'assets/sounds/title_music.wav')
+                pygame.mixer.music.load(TITLE_MUSIC)
                 pygame.mixer.music.play(-1)
-
+                
 
         # If the player had pressed X before then quit_game will be true and the game over message won't be displayed.
         if not quit_game:
@@ -111,8 +113,9 @@ class Director:
         player_ship = cast.get_first_actor("player_ship")
 
         max_x = self._display_service.get_width()
+        
         max_y = self._display_service.get_height()
-        player_ship.move_next(max_x, max_y)
+        player_ship.move_next(MAX_PLAYER_X, max_y)
         # level = 0 
 
         # #get level banner
@@ -123,9 +126,21 @@ class Director:
         score_banner = cast.get_first_actor("score_banner")
 
 
-        #Check if passed enought time to create a new enemy
+        #Check if passed enough time to create a new enemy
         if (time.perf_counter() - self._enemy_t > self._enemy_rate):
-            new_enemy = Enemy()
+            random_enemy = random.randint(1,4)
+            if random_enemy == 1:
+                e_image = ENEMY_IMAGE
+                #print(1)
+            elif random_enemy == 2:
+                e_image = ENEMY_IMAGE1
+                #print(2)
+            elif random_enemy == 3:
+                e_image = ENEMY_IMAGE2
+            elif random_enemy == 4:
+                e_image = ENEMY_IMAGE3
+
+            new_enemy = Enemy(image = e_image)
             # Place the enemy at a random position
             pos_x = max_x
             pos_y = random.randrange(0, max_y - new_enemy.get_image_height())
@@ -159,6 +174,7 @@ class Director:
             # Check if a player bullet hit the enemy 
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
+                    ENEMY_SHOT.play()
                     cast.remove_actor("player_bullets", bullet)
                     # Remove health from enemy
                     enemy.add_to_health(-10)
@@ -182,6 +198,7 @@ class Director:
                 cast.remove_actor("enemy_bullets", bullet)
             # Check if a enemy bullet hit the player 
             if (self.check_collision(bullet, player_ship)):
+                HERO_SHOT.play()
                 cast.remove_actor("enemy_bullets", bullet)
                 # Remove health from player
                 player_ship.add_to_health(-10)
