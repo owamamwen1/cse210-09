@@ -113,10 +113,10 @@ class Director:
         max_x = self._display_service.get_width()
         max_y = self._display_service.get_height()
         player_ship.move_next(max_x, max_y)
-        level = 0 
+        # level = 0 
 
-        #get level banner
-        level_banner = cast.get_first_actor("level_banner")
+        # #get level banner
+        # level_banner = cast.get_first_actor("level_banner")
 
 
         # get score banner
@@ -167,17 +167,10 @@ class Director:
                     score_banner.set_text("Score: " + str(player_ship.get_points()))
 
                     # Realign score banner on the right
-                    score_banner.set_position(Point(max_x - score_banner.get_image_width(), 0))
+                    score_banner.set_position(Point((max_x - 20) - score_banner.get_image_width(), 5))
                     if (enemy.get_health() == 0):
                         cast.remove_actor("enemies", enemy)
 
-        #updates level  
-        level_banner.set_text("Level: " + str(level))  #need updating
-
-            # Realign level banner on the center
-        level_banner.set_position(Point(max_x //2 - level_banner.get_image_width(), 10))
-        # if len(enemies) == 0:
-        #     level +=1
             
 
 
@@ -199,9 +192,6 @@ class Director:
         health_banner = cast.get_first_actor("health_banner")
         health_banner.set_text("Health: " + str(player_ship.get_health()))
 
-        # get and update health banner
-        # health_banner = cast.get_first_actor("health_banner")
-        # health_banner.set_text("Health: " + str(player_ship.get_health())) #sn: is this repeated on purpose?
         
     def _is_over(self):
         return self.__game_over

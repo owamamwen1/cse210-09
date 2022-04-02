@@ -52,18 +52,13 @@ def main():
     cast.add_actor("player_ship", player_ship)
 
     # The health banner
-    health_banner = Banner(Point(0,0),'Health:')
+    health_banner = Banner(Point(20,5),'Health:')
     cast.add_actor("health_banner", health_banner)
 
     # The score banner
     score_banner = Banner(Point(0,0),'Score: 0')
-    score_banner.set_position(Point(MAX_X - score_banner.get_image_width(), 0))
+    score_banner.set_position(Point((MAX_X - 20) - score_banner.get_image_width(), 5))
     cast.add_actor("score_banner", score_banner)
-
-    # The level banner
-    level_banner = Banner(Point(0,0),'Level: 0')
-    level_banner.set_position(Point(MAX_X //2 - level_banner.get_image_width(), 0))
-    cast.add_actor("level_banner", level_banner)
 
 
     # start the game
