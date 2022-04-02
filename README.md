@@ -20,7 +20,7 @@ Mac: python3 -m pip install -U raylib --user
 
 After you've installed the required libraries, open a terminal and browse to the project's root folder. Start the program by running the following command.```
 
-python3 spacegame
+python3 galaxia
 
 ```
 You can also run the program from an IDE like Visual Studio Code. Start your IDE and open the
@@ -33,7 +33,7 @@ The project files and folders are organized as follows:
 
 root (project root folder)
 
-+-- spacegame (source code for game)
++-- galaxia (source code for game)
 
 +-- game (specific game classes)
 
