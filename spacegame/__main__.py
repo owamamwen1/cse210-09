@@ -15,7 +15,7 @@ def mainMenu():
     WIN = pygame.display.set_mode((MAX_X,MAX_Y))
     LOGO = pygame.image.load(LOGO_IMAGE)
     SPLASH = pygame.transform.scale(pygame.image.load(SPLASH_IMAGE), (MAX_X, MAX_Y))
-    pygame.mixer.music.load(pathlib.Path(__file__).parent / 'game/assets/sounds/title_music.wav')
+    pygame.mixer.music.load(TITLE_MUSIC)
     pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play(-1)
 
