@@ -15,6 +15,7 @@ def mainMenu():
     WIN = pygame.display.set_mode((MAX_X,MAX_Y))
     LOGO = pygame.image.load(LOGO_IMAGE)
     SPLASH = pygame.transform.scale(pygame.image.load(SPLASH_IMAGE), (MAX_X, MAX_Y))
+    NEXT_SPLASH = pygame.transform.scale(pygame.image.load(SPLASH_INSTRUCTION), (MAX_X, MAX_Y)) 
     pygame.mixer.music.load(TITLE_MUSIC)
     pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play(-1)
@@ -33,6 +34,8 @@ def mainMenu():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
+                WIN.blit(NEXT_SPLASH, (0,0))
+                pygame.display.update()
                 pygame.mixer.music.fadeout(1000 * 3)
                 pygame.mixer.music.unload() 
                 main()
