@@ -2,11 +2,10 @@ from pathlib import Path
 from game.shared.color import Color
 import pygame
 pygame.mixer.init()
-# import Path
 
 FRAME_RATE = 50
-MAX_X = 950 #800
-MAX_Y = 600 #600
+MAX_X = 950
+MAX_Y = 600
 FONT_SIZE = 20
 PLAYER_SIZE = 15
 MAX_PLAYER_X = 400

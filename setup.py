@@ -18,8 +18,8 @@ setup(
     description="Tool for checking if all modules, classes, and functions have docstrings",
     version="0.1.0",
     long_description=markdown,
-    packages=["spacegame"],
+    packages=["galaxia"],
     entry_points={"console_scripts": [
-        "spacegame=spacegame.__main__:main"]},
+        "galaxia=galaxia.__main__:main"]},
     install_requires=reqs,
 )

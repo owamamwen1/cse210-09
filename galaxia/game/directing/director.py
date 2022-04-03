@@ -3,13 +3,11 @@ from game.casting.enemy import Enemy
 from game.casting.banner import Banner
 from game.shared.point import Point
 from game.shared.gameconstants import *
-import pathlib
 import pygame
 import time
 import random
 
 pygame.mixer.init()
-
 
 
 class Director:
@@ -23,7 +21,6 @@ class Director:
     """
 
     def __init__(self, keyboard_service, display_service):
-        # self._SCORE = 600
         self.__game_over = False
         """Constructs a new Director using the specified keyboard and display services.
         
@@ -41,16 +38,18 @@ class Director:
             cast (Cast): The cast of actors.
         """
         self._display_service.open_window()
-        self._init_t = time.perf_counter() # Set the initial time counter
-        self._enemy_t = time.perf_counter() # Set the initial enemy time counter
-        self._enemy_rate = 3 # Enemies will appear each 3 seconds
+        self._init_t = time.perf_counter()  # Set the initial time counter
+        self._enemy_t = time.perf_counter()  # Set the initial enemy time counter
+        self._enemy_rate = 3  # Enemies will appear each 3 seconds
 
         run = True
         quit_game = False
-        frame_duration = self._display_service.get_frame_duration() # Here we get the duration of each frame (in milliseconds).
+        # Here we get the duration of each frame (in milliseconds).
+        frame_duration = self._display_service.get_frame_duration()
 
         while run:
-            pygame.time.delay(frame_duration) # This line determines the time of each frame (actually it says to the program to wait a certain amout of time before executing the next steps).
+            # This line determines the time of each frame (actually it says to the program to wait a certain amout of time before executing the next steps).
+            pygame.time.delay(frame_duration)
             for event in pygame.event.get():
                 # If player press the window X set quit_game to true and stops this loop
                 if event.type == pygame.QUIT:
@@ -61,7 +60,6 @@ class Director:
                     quit_game = True
                     pygame.mixer.music.load(TITLE_MUSIC)
                     pygame.mixer.music.play(-1)
-                    
 
             self._get_inputs(cast)
             self._do_updates(cast)
@@ -72,11 +70,10 @@ class Director:
                 run = False
                 pygame.mixer.music.load(TITLE_MUSIC)
                 pygame.mixer.music.play(-1)
-                
 
         # If the player had pressed X before then quit_game will be true and the game over message won't be displayed.
         if not quit_game:
-            game_over_message = Banner(Point(0,0), 'Game Over', 60)
+            game_over_message = Banner(Point(0, 0), 'Game Over', 60)
             max_x = self._display_service.get_width()
             max_y = self._display_service.get_height()
             game_over_message.set_center(Point(max_x / 2, max_y / 2))
@@ -103,7 +100,6 @@ class Director:
         vel = player_ship.get_direction()
         player_ship.set_velocity(vel)
 
-
     def _do_updates(self, cast):
         """Updates the players' positions and resolves any collisions with trails.
 
@@ -113,42 +109,38 @@ class Director:
         player_ship = cast.get_first_actor("player_ship")
 
         max_x = self._display_service.get_width()
-        
+
         max_y = self._display_service.get_height()
         player_ship.move_next(MAX_PLAYER_X, max_y)
-        # level = 0 
+        # level = 0
 
         # #get level banner
         # level_banner = cast.get_first_actor("level_banner")
 
-
         # get score banner
         score_banner = cast.get_first_actor("score_banner")
 
-
-        #Check if passed enough time to create a new enemy
+        # Check if passed enough time to create a new enemy
         if (time.perf_counter() - self._enemy_t > self._enemy_rate):
-            random_enemy = random.randint(1,4)
+            random_enemy = random.randint(1, 4)
             if random_enemy == 1:
                 e_image = ENEMY_IMAGE
-                #print(1)
+                # print(1)
             elif random_enemy == 2:
                 e_image = ENEMY_IMAGE1
-                #print(2)
+                # print(2)
             elif random_enemy == 3:
                 e_image = ENEMY_IMAGE2
             elif random_enemy == 4:
                 e_image = ENEMY_IMAGE3
 
-            new_enemy = Enemy(image = e_image)
+            new_enemy = Enemy(image=e_image)
             # Place the enemy at a random position
             pos_x = max_x
             pos_y = random.randrange(0, max_y - new_enemy.get_image_height())
             new_enemy.set_position(Point(pos_x, pos_y))
             cast.add_actor("enemies", new_enemy)
             self._enemy_t = time.perf_counter()
-
-
 
         # Add player shots
         if (player_ship.is_shooting() and player_ship.is_recharged()):
@@ -171,7 +163,7 @@ class Director:
                 new_bullet = Bullet(enemy.get_center(), 1)
                 cast.add_actor("enemy_bullets", new_bullet)
                 enemy.uncharge()
-            # Check if a player bullet hit the enemy 
+            # Check if a player bullet hit the enemy
             for bullet in player_bullets:
                 if (self.check_collision(bullet, enemy)):
                     ENEMY_SHOT.play()
@@ -180,15 +172,14 @@ class Director:
                     enemy.add_to_health(-10)
                     # Updates player points
                     player_ship.add_to_points(10)
-                    score_banner.set_text("Score: " + str(player_ship.get_points()))
+                    score_banner.set_text(
+                        "Score: " + str(player_ship.get_points()))
 
                     # Realign score banner on the right
-                    score_banner.set_position(Point((max_x - 20) - score_banner.get_image_width(), 5))
+                    score_banner.set_position(
+                        Point((max_x - 20) - score_banner.get_image_width(), 5))
                     if (enemy.get_health() == 0):
                         cast.remove_actor("enemies", enemy)
-
-            
-
 
         enemy_bullets = cast.get_actors("enemy_bullets")
         for bullet in enemy_bullets:
@@ -196,7 +187,7 @@ class Director:
             # Remove enemy bullets that go outside screen boundaries
             if (bullet.get_position().get_x() < bullet.get_image_width() * -1):
                 cast.remove_actor("enemy_bullets", bullet)
-            # Check if a enemy bullet hit the player 
+            # Check if a enemy bullet hit the player
             if (self.check_collision(bullet, player_ship)):
                 HERO_SHOT.play()
                 cast.remove_actor("enemy_bullets", bullet)
@@ -204,12 +195,11 @@ class Director:
                 player_ship.add_to_health(-10)
                 if (player_ship.get_health() == 0):
                     self.__game_over = True
-        
+
         # get and update health banner
         health_banner = cast.get_first_actor("health_banner")
         health_banner.set_text("Health: " + str(player_ship.get_health()))
 
-        
     def _is_over(self):
         return self.__game_over
 
@@ -228,8 +218,10 @@ class Director:
 
         # First, get the four corner points of actor_1's "collision box"
         point_1 = actor_1.get_position()
-        point_2 = Point(point_1.get_x(), point_1.get_y() + actor_1.get_image_height())
-        point_3 = Point(point_1.get_x() + actor_1.get_image_width(), point_1.get_y())
+        point_2 = Point(point_1.get_x(), point_1.get_y() +
+                        actor_1.get_image_height())
+        point_3 = Point(point_1.get_x() +
+                        actor_1.get_image_width(), point_1.get_y())
         point_4 = Point(point_2.get_x(), point_3.get_y())
         actor1_points = [point_1, point_2, point_3, point_4]
 

@@ -1,5 +1,5 @@
 [project]
-name = "SpaceGame"
+name = "Galaxia"
 version = "0.0.1"
 description = "Tool for checking if all modules, classes, and functions have docstrings"
 authors = ["BYUI Student Project"]
