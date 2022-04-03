@@ -3,7 +3,6 @@ from game.casting.enemy import Enemy
 from game.casting.banner import Banner
 from game.shared.point import Point
 from game.shared.gameconstants import *
-import pathlib
 import pygame
 import time
 import random
@@ -23,7 +22,6 @@ class Director:
     """
 
     def __init__(self, keyboard_service, display_service):
-        # self._SCORE = 600
         self.__game_over = False
         """Constructs a new Director using the specified keyboard and display services.
         
